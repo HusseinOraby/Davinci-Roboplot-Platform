@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Davinci-RoboPlot: Autonomous Mobile Plotting Platform</title>
+<meta name="description" content="Davinci-RoboPlot is a ROS 2 platform in which a differential-drive robot draws text and CAD (DXF) drawings at full scale on the floor, using a PD-LQR path tracker.">
+<meta property="og:title" content="Davinci-RoboPlot">
+<meta property="og:description" content="An autonomous mobile plotting platform with PD-LQR path tracking for large-scale floor marking of text and CAD vector graphics.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<header class="lab-header">
+  <img src="static/images/banner.png" alt="Jeonbuk National University and the Center for AI &amp; e-Mobility (CAiM) logos">
+</header>
+
+<section class="hero" id="top">
+  <canvas id="floor" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <h1>Davinci-RoboPlot</h1>
+    <p class="subtitle">An autonomous mobile plotting platform with PD-LQR path tracking for large-scale floor marking of text and CAD vector graphics</p>
+    <p class="authors">
+      <span>Hussein Oraby<sup>1</sup></span>
+      <span><a href="mailto:deokjlee@jbnu.ac.kr">Deok Jin Lee</a><sup>2</sup></span>
+    </p>
+    <p class="affil"><sup>1,2</sup>Department of Mechanical Design Engineering, Jeonbuk National University, and Center for Autonomous Intelligent Mobility (CAIM)</p>
+    <nav class="actions" aria-label="Project links">
+      <span class="btn disabled" title="The paper link will be added after publication">Paper (coming soon)</span>
+      <a class="btn" href="#experiments">Watch the experiments</a>
+      <a class="btn" href="#bibtex">BibTeX</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#abstract">Abstract</a>
+  <a href="#architecture">System architecture</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#experiments">Experiments</a>
+  <a href="#results">Results</a>
+  <a href="#limits">Limitations</a>
+  <a href="#bibtex">BibTeX</a>
+</nav>
+
+<main>
+
+<section id="abstract" class="block">
+  <h2>Abstract</h2>
+  <p class="lead">Davinci-RoboPlot is a ROS 2-based autonomous mobile plotting platform that lets a differential-drive robot render text and CAD vector graphics directly on large floor surfaces. It is implemented on the Nova Carter robot in the NVIDIA Isaac Sim physics simulator.</p>
+  <p>The platform combines three components: a unified waypoint-generation pipeline that converts Hershey-font text and DXF CAD files into robot waypoints; a PD-LQR path-tracking controller built on an augmented four-element state vector; and a graphical interface for real-time operator control of the marking process.</p>
+  <p>At the same base speed, the PD-LQR controller reaches a mean waypoint error of 1.46&nbsp;cm and a mean lateral deviation of 0.08&nbsp;cm, finishing the task in 29.84&nbsp;min. A conventional proportional (P) controller reaches 1.55&nbsp;cm and 0.11&nbsp;cm, and needs 1&nbsp;h 32&nbsp;min. The platform was tested on text rendering, a geometric DXF closure test, and a multi-geometry layout of a car parking lot and a football field.</p>
+
+  <dl class="numbers">
+    <div><dt>Mean lateral deviation</dt><dd>0.08 cm <small>vs 0.11 cm with the P-controller</small></dd></div>
+    <div><dt>Task time</dt><dd>29.8 min <small>vs 91.7 min, 3.07&times; faster</small></dd></div>
+    <div><dt>Max waypoint error</dt><dd>1.50 cm <small>vs 60.37 cm, 40.2&times; lower</small></dd></div>
+    <div><dt>Largest job</dt><dd>9.0 &times; 10.7 m <small>10-car parking lot, 6 h 32 min</small></dd></div>
+  </dl>
+</section>
+
+<section id="contrib" class="block tint">
+  <h2>What is new</h2>
+  <ol class="contrib">
+    <li><strong>One robot, any drawing.</strong> Free text and arbitrary DXF files (lines, arcs, circles, splines) are drawn at user-chosen scale, with no application-specific templates and no limit on the output area.</li>
+    <li><strong>One waypoint format.</strong> Hershey text and DXF geometry are both converted to (x, y, pen) waypoints, with arc sampling that adapts to curvature and pen-up travel that is reordered to stay short.</li>
+    <li><strong>A damped controller.</strong> PD-LQR adds a filtered heading-error-rate state to the standard error model, plus deadlock escape, a stall watchdog and a pen-down position gate for long unattended jobs.</li>
+    <li><strong>Practical tuning guidance.</strong> Both controllers were tested across a range of speeds, giving a speed-versus-accuracy trade-off for hardware deployment.</li>
+  </ol>
+</section>
+
+<section id="architecture" class="block">
+  <h2>System architecture</h2>
+  <p>The software runs as five ROS 2 Humble nodes inside Isaac Sim. The plotter node is the hub: it receives jobs from the operator interface, generates waypoints, closes the velocity loop on wheel odometry, and switches the pen or spray gun. The robot localises itself from wheel odometry only, so the only requirement on the environment is a flat, traversable floor.</p>
+
+  <figure class="media-fig">
+    <img src="static/images/fig3-system-architecture.png" alt="Four-layer system architecture of Davinci-RoboPlot" data-file="static/images/fig3-system-architecture.png">
+    <figcaption>Four layers: user input, waypoint processing, ROS 2 control, and the robot (simulated in Isaac Sim).</figcaption>
+  </figure>
+
+  <div class="two">
+    <figure class="media-fig">
+      <img src="static/images/fig4-node-graph.png" alt="ROS 2 node graph" data-file="static/images/fig4-node-graph.png">
+      <figcaption>ROS 2 node graph. The plotter node closes the control loop through odometry feedback.</figcaption>
+    </figure>
+    <figure class="media-fig">
+      <img src="static/images/fig7-control-loop.png" alt="PD-LQR control loop block diagram" data-file="static/images/fig7-control-loop.png">
+      <figcaption>PD-LQR control loop: the error state is computed from odometry and the current target waypoint.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="pipeline" class="block tint">
+  <h2>From a text string or a CAD file to floor marks</h2>
+  <div class="two pipe">
+    <div>
+      <h3>Text</h3>
+      <p>Each character is a set of Hershey stroke polylines. Strokes are subdivided into 1.5 cm pieces, mapped onto the floor at the chosen scale, rotated to the robot's heading, and tagged pen-up for the first point of every stroke and pen-down for the rest.</p>
+    </div>
+    <div>
+      <h3>DXF drawings</h3>
+      <p>Lines, polylines, circles, arcs and splines are read with <code>ezdxf</code>, converted to metres from the file's units, centred and scaled to the width you choose, and ordered with a nearest-neighbour pass to cut pen-up travel.</p>
+    </div>
+  </div>
+  <figure class="media-fig narrow">
+    <img src="static/images/fig5-ui.png" alt="Robot Plotter operator interface in DXF mode" data-file="static/images/fig5-ui.png">
+    <figcaption>The operator interface (PyQt5): choose text or a DXF file, set the size or width, preview the path, then execute, pause or stop. Speed can be changed during the run.</figcaption>
+  </figure>
+</section>
+
+<section id="experiments" class="block wide">
+  <h2>Experiments</h2>
+  <p class="lead">All runs were done in NVIDIA Isaac Sim. Long runs are sped up; the speed-up is printed on each clip.</p>
+
+  <h3>Text rendering: &ldquo;HELLO WORLD&rdquo;</h3>
+  <p>1,033 waypoints, letters 0.72 m tall, about 5.13 m wide. Mean waypoint error 1.44 cm, maximum 1.50 cm.</p>
+  <div class="grid one">
+    <figure class="clip"><div class="media" data-file="static/videos/text-hello-world.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/text-hello-world.mp4" type="video/mp4"></video></div><figcaption>Text rendered with the Hershey simplex font</figcaption></figure>
+  </div>
+
+  <h3>DXF closure test</h3>
+  <p>A 1.5 m square, an equilateral triangle, a circle and two arrows. Together they cover straight lines, closed curves, sharp corners and abrupt heading changes.</p>
+  <div class="grid one">
+    <figure class="clip"><div class="media" data-file="static/videos/dxf-closure.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/dxf-closure.mp4" type="video/mp4"></video></div><figcaption>PD-LQR plotting the DXF test file at 0.10 m/s</figcaption></figure>
+  </div>
+
+  <h3>How speed affects drawing quality (PD-LQR)</h3>
+  <p>The output stays clean up to 0.15 m/s, starts to oscillate at 0.25 m/s, and fails at 0.50 m/s.</p>
+  <div class="grid three">
+    <figure class="clip"><div class="media" data-file="static/videos/speed-0p10.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/speed-0p10.mp4" type="video/mp4"></video></div><figcaption>0.10 m/s <span class="tag good">very good</span></figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/speed-0p15.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/speed-0p15.mp4" type="video/mp4"></video></div><figcaption>0.15 m/s <span class="tag good">very good, recommended</span></figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/speed-0p20.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/speed-0p20.mp4" type="video/mp4"></video></div><figcaption>0.20 m/s <span class="tag ok">good</span></figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/speed-0p25.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/speed-0p25.mp4" type="video/mp4"></video></div><figcaption>0.25 m/s <span class="tag ok">fair</span></figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/speed-0p35.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/speed-0p35.mp4" type="video/mp4"></video></div><figcaption>0.35 m/s <span class="tag bad">poor</span></figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/speed-0p50.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/speed-0p50.mp4" type="video/mp4"></video></div><figcaption>0.50 m/s <span class="tag bad">failed</span></figcaption></figure>
+  </div>
+
+  <h3>PD-LQR compared with the P-controller</h3>
+  <p>Both controllers run the same DXF file at the same 0.10 m/s. The P-controller rotates in place until its heading is right and then drives forward; PD-LQR corrects heading and position while moving.</p>
+  <div class="grid two">
+    <figure class="clip"><div class="media" data-file="static/videos/compare-lqr.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/compare-lqr.mp4" type="video/mp4"></video></div><figcaption>PD-LQR: 29.8 min</figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/compare-p.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/compare-p.mp4" type="video/mp4"></video></div><figcaption>P-controller: 91.7 min</figcaption></figure>
+  </div>
+
+  <h3>Large-scale layouts</h3>
+  <p>A 10-car parking lot (two rows of five bays, wheel stops, arrows and a dashed centre line, 9.0 &times; 10.7 m) and a football field.</p>
+  <div class="grid two">
+    <figure class="clip"><div class="media" data-file="static/videos/parking-lot.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/parking-lot.mp4" type="video/mp4"></video></div><figcaption>Parking lot, PD-LQR: 6 h 32 min</figcaption></figure>
+    <figure class="clip"><div class="media" data-file="static/videos/football-field.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/football-field.mp4" type="video/mp4"></video></div><figcaption>Football field, PD-LQR</figcaption></figure>
+  </div>
+</section>
+
+<section id="results" class="block tint">
+  <h2>Results</h2>
+
+  <h3>PD-LQR: accuracy and time against speed</h3>
+  <div class="chart-row">
+    <div class="chart"><canvas id="chartLqr" aria-label="PD-LQR lateral deviation against base speed" role="img"></canvas></div>
+    <div class="chart"><canvas id="chartTime" aria-label="Task time against base speed for both controllers" role="img"></canvas></div>
+  </div>
+  <p class="note">Mean lateral deviation stays near 0.8&ndash;1.1 mm up to 0.15 m/s and then rises. Above 0.20 m/s the task takes longer again, because the robot overshoots corners and has to stop, rotate and restart. The recommended operating point is 0.15 m/s.</p>
+
+  <h3>Both controllers across speeds</h3>
+  <div class="chart-row">
+    <div class="chart"><canvas id="chartMean" aria-label="Mean lateral deviation for both controllers" role="img"></canvas></div>
+    <div class="chart"><canvas id="chartMax" aria-label="Maximum lateral deviation for both controllers" role="img"></canvas></div>
+  </div>
+
+  <h3>Head-to-head at 0.10 m/s, DXF test file</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th scope="col">Metric</th><th scope="col">PD-LQR</th><th scope="col">P-controller</th><th scope="col">Difference</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Max waypoint error</th><td>1.50 cm</td><td>60.37 cm</td><td>40.2&times; lower</td></tr>
+      <tr><th scope="row">Mean lateral deviation</th><td>0.08 cm</td><td>0.11 cm</td><td></td></tr>
+      <tr><th scope="row">Max lateral deviation</th><td>2.08 cm</td><td>6.04 cm</td><td>2.9&times; lower</td></tr>
+      <tr><th scope="row">Total task time</th><td>29.83 min</td><td>91.73 min</td><td>3.07&times; faster</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Parking lot layout at 0.10 m/s</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th scope="col">Metric</th><th scope="col">PD-LQR</th><th scope="col">P-controller</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Mean lateral deviation</th><td>0.06 cm</td><td>0.07 cm</td></tr>
+      <tr><th scope="row">Max lateral deviation</th><td>2.44 cm</td><td>31.08 cm</td></tr>
+      <tr><th scope="row">Max waypoint error</th><td>201.61 cm</td><td>646.15 cm</td></tr>
+      <tr><th scope="row">Total task time</th><td>6 h 32 min</td><td>14 h 40 min</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">Tracking within a stroke stays accurate for hours. The large waypoint errors come from wheel-odometry drift during pen-up moves, which is why absolute position correction is the first item of future work.</p>
+</section>
+
+<section id="limits" class="block">
+  <h2>Limitations and next steps</h2>
+  <ul class="plain">
+    <li><strong>Simulation only.</strong> All results come from Isaac Sim. Wheel slip, backlash and sensor noise on a real floor may reduce accuracy.</li>
+    <li><strong>Odometry drift.</strong> Localisation uses wheel odometry alone, so drift grows over long pen-up moves. A fiducial, UWB or lidar-based correction is planned.</li>
+    <li><strong>Hand-tuned gains.</strong> The LQR weights were tuned by hand on square-closure tests at 0.10 m/s and may need re-tuning on other robots or floors.</li>
+    <li><strong>Next.</strong> Hardware tests on a physical Nova Carter, and Davinci-RoboPlot v2 with a three-axis CNC gantry on the mobile base for sub-millimetre precision.</li>
+  </ul>
+</section>
+
+<section id="bibtex" class="block tint">
+  <h2>BibTeX</h2>
+  <pre id="bib"><code>@article{oraby2026davinciroboplot,
+  title   = {Davinci-RoboPlot: An Autonomous Mobile Plotting Platform with PD-LQR Path Tracking for Generalized Large-Scale Floor Marking of Text and CAD Vector Graphics},
+  author  = {Oraby, Hussein and Lee, Deok Jin},
+  journal = {IEEE Access},
+  year    = {2026}
+}</code></pre>
+  <button class="btn dark" id="copyBib" type="button">Copy BibTeX</button>
+</section>
+
+</main>
+
+<footer>
+  <p>Center for AI &amp; e-Mobility (CAiM), Department of Mechanical Design Engineering, Jeonbuk National University. Supported by the Autonomous Intelligent e-Mobility Research Center at Jeonbuk National University.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="static/js/main.js"></script>
+</body>
+</html>
