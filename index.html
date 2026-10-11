@@ -76,7 +76,46 @@
     </ol>
   </div>
 </section>
+<!-- EXPERIMENTS -->
+<section id="experiments" class="sec">
+  <div class="wrap">
+    <h2>Experiments</h2>
+    <div class="prose">
+      <p>All runs were done in NVIDIA Isaac Sim. Click a video to pause or play it.</p>
+    </div>
 
+    <h3>DXF closure test: PD-LQR and P-controller at 0.15 m/s</h3>
+    <div class="prose">
+      <p>The test drawing is a 1.5&nbsp;m square, an equilateral triangle, a circle and two arrows. It covers straight lines, closed curves, sharp corners and abrupt heading changes. Both controllers draw the same file at the same base speed.</p>
+    </div>
+    <div class="videos two">
+      <figure class="clip">
+        <div class="media" data-file="static/videos/dxf-pd-lqr-0p15.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/dxf-pd-lqr-0p15.mp4" type="video/mp4"></video></div>
+        <figcaption><strong>PD-LQR</strong>, V<sub>0</sub> = 0.15 m/s<span>22.14 min</span></figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="media" data-file="static/videos/dxf-p-controller-0p15.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/dxf-p-controller-0p15.mp4" type="video/mp4"></video></div>
+        <figcaption><strong>P-controller</strong>, V<sub>0</sub> = 0.15 m/s<span>69.96 min</span></figcaption>
+      </figure>
+    </div>
+
+    <h3>Text and a football field with PD-LQR</h3>
+    <div class="prose">
+      <p>The same pipeline draws Hershey-font text and a multi-geometry DXF layout of a football field, with no changes between jobs.</p>
+    </div>
+    <div class="videos two">
+      <figure class="clip">
+        <div class="media" data-file="static/videos/text-hello-world.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/text-hello-world.mp4" type="video/mp4"></video></div>
+        <figcaption><strong>Text:</strong> &ldquo;HELLO WORLD&rdquo;</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="media" data-file="static/videos/football-field.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/football-field.mp4" type="video/mp4"></video></div>
+        <figcaption><strong>Football field</strong> DXF layout</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+  
 <!-- ARCHITECTURE -->
 <section id="architecture" class="sec">
   <div class="wrap">
@@ -119,45 +158,7 @@
   </div>
 </section>
 
-<!-- EXPERIMENTS -->
-<section id="experiments" class="sec">
-  <div class="wrap">
-    <h2>Experiments</h2>
-    <div class="prose">
-      <p>All runs were done in NVIDIA Isaac Sim. Click a video to pause or play it.</p>
-    </div>
 
-    <h3>DXF closure test: PD-LQR and P-controller at 0.15 m/s</h3>
-    <div class="prose">
-      <p>The test drawing is a 1.5&nbsp;m square, an equilateral triangle, a circle and two arrows. It covers straight lines, closed curves, sharp corners and abrupt heading changes. Both controllers draw the same file at the same base speed.</p>
-    </div>
-    <div class="videos two">
-      <figure class="clip">
-        <div class="media" data-file="static/videos/dxf-pd-lqr-0p15.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/dxf-pd-lqr-0p15.mp4" type="video/mp4"></video></div>
-        <figcaption><strong>PD-LQR</strong>, V<sub>0</sub> = 0.15 m/s<span>22.14 min</span></figcaption>
-      </figure>
-      <figure class="clip">
-        <div class="media" data-file="static/videos/dxf-p-controller-0p15.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/dxf-p-controller-0p15.mp4" type="video/mp4"></video></div>
-        <figcaption><strong>P-controller</strong>, V<sub>0</sub> = 0.15 m/s<span>69.96 min</span></figcaption>
-      </figure>
-    </div>
-
-    <h3>Text and a football field with PD-LQR</h3>
-    <div class="prose">
-      <p>The same pipeline draws Hershey-font text and a multi-geometry DXF layout of a football field, with no changes between jobs.</p>
-    </div>
-    <div class="videos two">
-      <figure class="clip">
-        <div class="media" data-file="static/videos/text-hello-world.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/text-hello-world.mp4" type="video/mp4"></video></div>
-        <figcaption><strong>Text:</strong> &ldquo;HELLO WORLD&rdquo;</figcaption>
-      </figure>
-      <figure class="clip">
-        <div class="media" data-file="static/videos/football-field.mp4"><video muted loop playsinline preload="metadata"><source src="static/videos/football-field.mp4" type="video/mp4"></video></div>
-        <figcaption><strong>Football field</strong> DXF layout</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
 
 <!-- RESULTS -->
 <section id="results" class="sec tint">
