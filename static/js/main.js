@@ -82,7 +82,7 @@
         if (drawn === path.length) pause = 170;
       }
       render();
-      requestAnimationFrame(tick);
+      if (reduceMotion) { drawn = path.length; render(); } else { requestAnimationFrame(tick); }
     }
 
     window.addEventListener("resize", resize);
