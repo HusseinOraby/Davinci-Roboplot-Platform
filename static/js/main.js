@@ -87,7 +87,7 @@
 
     window.addEventListener("resize", resize);
     resize();
-    if (reduceMotion) { drawn = path.length; render(); } else { requestAnimationFrame(tick); }
+    requestAnimationFrame(tick); }
   }
 
   /* ---------- Videos: play when visible, click to pause or play ---------- */
