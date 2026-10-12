@@ -36,6 +36,7 @@ h1, h2, h3, .subtitle, .authors, .affil, .btn, .toc, dt, th, figcaption, footer 
 .authors { display: flex; flex-wrap: wrap; gap: 0.3rem 1.5rem; margin: 0; font-size: 1.15rem; font-weight: 700; }
 .authors a { color: #fff; text-decoration-color: var(--cyan); text-underline-offset: 3px; }
 .affil { margin: 0.4rem 0 1.6rem; font-size: 0.92rem; line-height: 1.45; color: #b9b6d3; }
+.affil a { color: #d9d7ee; text-decoration-color: var(--cyan); text-underline-offset: 3px; }
 .btn { display: inline-block; padding: 0.55rem 1.2rem; border: 1.5px solid var(--cyan); border-radius: 999px; color: #fff; background: rgba(19, 18, 29, 0.6); font-size: 1rem; font-weight: 600; text-decoration: none; }
 .btn:hover { background: var(--cyan); color: var(--floor); }
 @media (max-width: 900px) { #floor { opacity: 0.3; } .hero-copy { max-width: none; } }
@@ -96,8 +97,9 @@ img.missing { width: 100%; min-height: 12rem; background: repeating-linear-gradi
 .media::after { content: "Add " attr(data-file); position: absolute; inset: 0; display: grid; place-items: center; padding: 1rem; text-align: center; font: 0.85rem/1.3 var(--sans); color: #8f8cad; }
 .media.loaded::after { display: none; }
 .media video { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; }
-.clip figcaption { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.7rem; font-size: 1rem; color: var(--ink); }
-.clip figcaption span { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.clip figcaption { display: block; margin-top: 0.7rem; font-size: 1rem; line-height: 1.35; color: var(--ink); }
+.clip figcaption strong { display: block; font-size: 1.05rem; }
+.clip figcaption span { display: block; font-size: 0.95rem; color: var(--muted); }
 
 /* ---------- charts and table ---------- */
 .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin: 1.2rem 0 1.6rem; }
