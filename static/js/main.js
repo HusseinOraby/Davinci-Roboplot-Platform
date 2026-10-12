@@ -147,23 +147,23 @@
     // Data read from the experiment graphs
     var lqrV    = [0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.50];
     var lqrMean = [0.8, 0.8, 1.1, 1.8, 4.3, 7.9, 9.5];
-    var lqrMax  = [20.6, 20.8, 22.5, 23.7, 27.1, 36.2, 41.4];
+    var lqrWp   = [14.7, 14.6, 14.5, 14.5, 15.0, 16.2, 19.7];
     var lqrTime = [34.87, 29.85, 22.14, 18.28, 22.27, 28.47, 40.59];
 
     var pV      = [0.10, 0.15, 0.20, 0.25, 0.35, 0.40, 0.50];
     var pMean   = [1.1, 1.0, 1.0, 1.0, 1.1, 1.8, 7.4];
-    var pMax    = [2.78, 2.99, 2.73, 2.99, 56.48, 111.34, 167.72];
+    var pWp     = [19.9, 19.9, 19.8, 19.8, 21.3, 22.9, 24.7];
     var pTime   = [111.91, 69.96, 61.04, 50.54, 43.58, 53.06, 116.05];
 
     new Chart(document.getElementById("chartLqr"), {
       type: "scatter",
-      data: { datasets: [series("Mean", pts(lqrV, lqrMean), indigo, false, false), series("Maximum", pts(lqrV, lqrMax), rose, true, true)] },
-      options: options("PD-LQR: lateral deviation", "Lateral deviation (mm)", 0.55)
+      data: { datasets: [series("Mean lateral deviation", pts(lqrV, lqrMean), indigo, false, false), series("Mean waypoint error", pts(lqrV, lqrWp), rose, true, true)] },
+      options: options("PD-LQR: waypoint error and lateral deviation", "Error (mm)", 0.55)
     });
     new Chart(document.getElementById("chartP"), {
       type: "scatter",
-      data: { datasets: [series("Mean", pts(pV, pMean), indigo, false, false), series("Maximum", pts(pV, pMax), rose, true, true)] },
-      options: options("P-controller: lateral deviation", "Lateral deviation (mm)", 0.55)
+      data: { datasets: [series("Mean lateral deviation", pts(pV, pMean), indigo, false, false), series("Mean waypoint error", pts(pV, pWp), rose, true, true)] },
+      options: options("P-controller: waypoint error and lateral deviation", "Error (mm)", 0.55)
     });
     new Chart(document.getElementById("chartTime"), {
       type: "scatter",
