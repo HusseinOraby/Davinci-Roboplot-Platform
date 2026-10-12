@@ -79,7 +79,7 @@
         if (pause === 0) drawn = 0;
       } else if (drawn < path.length) {
         drawn = Math.min(path.length, drawn + speed);
-        if (drawn === path.length) pause = 70;
+        if (drawn === path.length) pause = 0;
       }
       render();
       requestAnimationFrame(tick);
