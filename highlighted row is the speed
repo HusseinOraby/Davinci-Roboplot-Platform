@@ -52,13 +52,13 @@
     <div class="prose">
       <p class="lead">Davinci-RoboPlot is a ROS 2-based autonomous mobile plotting platform that lets a differential-drive robot draw text and CAD vector graphics directly on large floor surfaces. It is implemented on the Nova Carter robot in the NVIDIA Isaac Sim physics simulator.</p>
       <p>The platform has three parts: a waypoint-generation pipeline that turns Hershey-font text and DXF CAD files into robot waypoints, a PD-LQR path-tracking controller built on an augmented four-element state vector, and a graphical interface for real-time operator control. A conventional proportional (P) controller is used as the comparison baseline.</p>
-      <p>On a DXF test drawing, the PD-LQR controller finished the job 1.5 to 3.7 times faster than the P-controller at every speed where both were tested. At 0.15&nbsp;m/s it took 22.14&nbsp;min against 69.96&nbsp;min, with a mean lateral deviation of about 1&nbsp;mm for both. The platform also drew text and a football-field layout.</p>
+      <p>On a DXF test drawing, the PD-LQR controller finished the job 1.5 to 3.7 times faster than the P-controller at every speed where both were tested. At 0.15&nbsp;m/s it took 22.14&nbsp;min against 69.96&nbsp;min, with a mean waypoint error of 14.5&nbsp;mm against 19.9&nbsp;mm and a mean lateral deviation of about 1&nbsp;mm for both. The platform also drew text and a football-field layout.</p>
     </div>
 
     <dl class="numbers">
       <div><dt>Task time at 0.15 m/s</dt><dd>22.1 min<small>P-controller: 70.0 min</small></dd></div>
       <div><dt>Speed advantage</dt><dd>1.5&ndash;3.7&times;<small>at every matched speed</small></dd></div>
-      <div><dt>Mean lateral deviation</dt><dd>1.1 mm<small>at 0.15 m/s; P-controller 1.0 mm</small></dd></div>
+      <div><dt>Mean waypoint error</dt><dd>14.5 mm<small>at 0.15 m/s; P-controller 19.9 mm</small></dd></div>
       <div><dt>Speeds tested</dt><dd>0.05&ndash;0.50<small>m/s, on the same DXF file</small></dd></div>
     </dl>
   </div>
@@ -219,8 +219,8 @@
       </table>
     </div>
     <div class="prose">
-      <p>The highlighted row is the speed used in the videos above. PD-LQR is faster at every matched speed. At 0.15&nbsp;m/s the two controllers have the same mean deviation to within 0.1&nbsp;mm, but the P-controller has the smaller maximum deviation. At 0.35&nbsp;m/s and above, the P-controller's maximum deviation is larger than PD-LQR's.</p>
-      <p>PD-LQR was also run at 0.05&nbsp;m/s (34.87&nbsp;min, mean 0.8&nbsp;mm, maximum 20.6&nbsp;mm), and the P-controller at 0.40&nbsp;m/s (53.06&nbsp;min, mean 1.8&nbsp;mm, maximum 111.34&nbsp;mm).</p>
+      <p>The highlighted row is the speed used in the videos above. PD-LQR is faster at every matched speed, and its mean waypoint error is about 5&nbsp;mm lower (20&ndash;27%). Mean lateral deviation is similar at 0.10&ndash;0.15&nbsp;m/s, within 0.3&nbsp;mm, but the P-controller's stays lower from 0.20&nbsp;m/s upward, since it aligns its heading before driving.</p>
+<p>PD-LQR was also run at 0.05&nbsp;m/s (34.87&nbsp;min, mean waypoint error 14.7&nbsp;mm, mean lateral deviation 0.8&nbsp;mm), and the P-controller at 0.40&nbsp;m/s (53.06&nbsp;min, 22.9&nbsp;mm, 1.8&nbsp;mm).</p>
     </div>
   </div>
 </section>
