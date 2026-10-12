@@ -113,6 +113,10 @@
         <figcaption><strong>Football field</strong><span>DXF layout, PD-LQR controller</span></figcaption>
       </figure>
     </div>
+    <figure class="fig narrow">
+      <img src="static/images/parking-football-rviz.png" alt="RViz 2 output of the PD-LQR controller for a parking lot layout and a football field" data-file="static/images/parking-football-rviz.png">
+      <figcaption>RViz 2 output of the PD-LQR controller for a 10-car parking lot layout (left) and a football field (right), both drawn from DXF files.</figcaption>
+    </figure>
   </div>
 </section>
   
@@ -177,7 +181,11 @@
       <p><strong>PD-LQR</strong> holds a mean deviation of 0.8&ndash;1.1&nbsp;mm up to 0.15&nbsp;m/s. After that the error grows steadily, reaching 9.5&nbsp;mm (mean) and 41.4&nbsp;mm (maximum) at 0.50&nbsp;m/s.</p>
       <p><strong>The P-controller</strong> keeps its mean deviation near 1.0&nbsp;mm up to 0.35&nbsp;m/s, and its maximum deviation under 3&nbsp;mm up to 0.25&nbsp;m/s, because it turns on the spot before driving forward. Above 0.25&nbsp;m/s the maximum deviation rises sharply, from 56.48&nbsp;mm at 0.35&nbsp;m/s to 167.72&nbsp;mm at 0.50&nbsp;m/s.</p>
     </div>
-
+    <h3>Drawing output at six speeds</h3>
+    <figure class="fig narrow">
+      <img src="static/images/dxf-six-speeds.png" alt="RViz 2 output of the PD-LQR controller plotting the DXF test file at six base speeds" data-file="static/images/dxf-six-speeds.png">
+      <figcaption>RViz 2 output of the PD-LQR controller plotting the DXF test file at six base speeds, 0.10 to 0.50 m/s. The drawing follows the reference closely at 0.10&ndash;0.20 m/s, oscillation becomes visible from 0.25 m/s, and the shapes are strongly distorted at 0.50 m/s.</figcaption>
+    </figure>
     <h3>Task time against speed</h3>
     <div class="charts">
       <div class="chart"><canvas id="chartTime" role="img" aria-label="Total task time against base speed for both controllers"></canvas></div>
