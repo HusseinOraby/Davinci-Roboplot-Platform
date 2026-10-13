@@ -195,7 +195,7 @@
       <div class="chart"><canvas id="chartMean" role="img" aria-label="Mean lateral deviation against base speed for both controllers"></canvas></div>
     </div>
     <div class="prose">
-      <p>PD-LQR finishes fastest at 0.20&nbsp;m/s (18.28&nbsp;min). Beyond that, corner overshoot forces the robot to stop, rotate and restart more often, so the time rises again to 40.59&nbsp;min at 0.50&nbsp;m/s. The P-controller needs 43.58&nbsp;min at its best (0.35&nbsp;m/s) and 111.91&nbsp;min at 0.10&nbsp;m/s, because it spends much of the job rotating in place.</p>
+      <p>PD-LQR finishes fastest at 0.20&nbsp;m/s (18.28&nbsp;min). Beyond that, corner overshoot forces the robot to stop, rotate and restart more often, so the time rises again to 40.59&nbsp;min at 0.50&nbsp;m/s. The P-controller needs 43.58&nbsp;min at its best (0.35&nbsp;m/s) and 111.91&nbsp;min at 0.10&nbsp;m/s.</p>
     </div>
 
     <h3>Matched-speed comparison</h3>
@@ -233,7 +233,7 @@
   <div class="wrap">
     <h2>Limitations and next steps</h2>
     <ul class="plain">
-      <li><strong>Simulation only.</strong> All results come from Isaac Sim. Wheel slip, backlash and sensor noise on a real floor may reduce accuracy.</li>
+      <li><strong>Simulation only.</strong> All results come from Isaac Sim. Wheel slip, backlash and sensor noise on a real floor may affect accuracy.</li>
       <li><strong>Odometry drift.</strong> Localisation uses wheel odometry alone, so position error grows over long jobs. A fiducial, UWB or lidar-based correction is planned.</li>
       <li><strong>Hand-tuned gains.</strong> The LQR weights were tuned by hand and may need re-tuning for other robots, floors or speeds.</li>
       <li><strong>Next.</strong> Hardware tests on a physical Nova Carter, and Davinci-RoboPlot v2 with a three-axis CNC gantry on the mobile base for sub-millimetre precision.</li>
