@@ -29,7 +29,7 @@
         <span><a href="mailto:deokjlee@jbnu.ac.kr">Deok Jin Lee</a><sup>2</sup></span>
       </p>
       <!-- To link the lab name, wrap it like this: <a href="https://YOUR-LAB-URL" target="_blank" rel="noopener">Center for Autonomous Intelligent Mobility (CAIM)</a> -->
-      <p class="affil"><sup>1,2</sup>Department of Mechanical Design Engineering, Jeonbuk National University, and Center for Autonomous Intelligent Mobility (CAIM)</p>
+      <p class="affil"><sup>1,2</sup>Department of Mechanical Design Engineering, Jeonbuk National University, and <a href="https://caim.jbnu.ac.kr/caim/index.do" target="_blank" rel="noopener">Center for Autonomous Intelligent Mobility (CAIM)</a></p>
       <a class="btn" href="#experiments">Watch the experiments</a>
     </div>
   </div>
@@ -53,7 +53,7 @@
     <div class="prose">
       <p class="lead">Davinci-RoboPlot is a ROS 2-based autonomous mobile plotting platform that lets a differential-drive robot draw text and CAD vector graphics directly on large floor surfaces. It is implemented on the Nova Carter robot in the NVIDIA Isaac Sim physics simulator.</p>
       <p>The platform has three parts: a waypoint-generation pipeline that turns Hershey-font text and DXF CAD files into robot waypoints, a PD-LQR path-tracking controller built on an augmented four-element state vector, and a graphical interface for real-time operator control. A conventional proportional (P) controller is used as the comparison baseline.</p>
-      <p>On a DXF test drawing, the PD-LQR controller finished the job 1.5 to 3.7 times faster than the P-controller at every speed where both were tested. At 0.15&nbsp;m/s it took 22.14&nbsp;min against 69.96&nbsp;min, with a mean waypoint error of 14.5&nbsp;mm against 19.9&nbsp;mm and a mean lateral deviation of about 1&nbsp;mm for both. The platform also drew text and a football-field layout.</p>
+      <p>On a DXF test drawing, the PD-LQR controller finished the job 1.5 to 3.7 times faster than the P-controller at every speed where both were tested. At 0.15&nbsp;m/s it took 22.14&nbsp;min against 69.96&nbsp;min, with a mean waypoint error of 14.5&nbsp;mm against 19.9&nbsp;mm and a mean lateral deviation of about 1&nbsp;mm for both.</p>
     </div>
 
     <dl class="numbers">
@@ -83,12 +83,12 @@
   <div class="wrap">
     <h2>Experiments</h2>
     <div class="prose">
-      <p>All runs were done in NVIDIA Isaac Sim. Click a video to pause or play it.</p>
+      <p>All runs were done in NVIDIA Isaac Sim.</p>
     </div>
 
     <h3>DXF closure test: PD-LQR and P-controller at 0.15 m/s</h3>
     <div class="prose">
-      <p>The test drawing is a 1.5&nbsp;m square, an equilateral triangle, a circle and two arrows. It covers straight lines, closed curves, sharp corners and abrupt heading changes. Both controllers draw the same file at the same base speed.</p>
+      <p>The test drawing is a 2&nbsp;m square, an equilateral triangle, a circle and two arrows. It covers straight lines, closed curves, sharp corners and abrupt heading changes. Both controllers draw the same file at the same base speed.</p>
     </div>
     <div class="videos two">
       <figure class="clip">
