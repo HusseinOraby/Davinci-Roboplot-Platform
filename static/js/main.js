@@ -9,7 +9,7 @@
     var ctx = canvas.getContext("2d");
     var path = [];
     var W = 0, H = 0, scale = 1, ox = 0, oy = 0;
-    var drawn = 0, pause = 0, speed = 14;
+    var drawn = 0, pause = 30, speed = 10;
 
     function line(x1, y1, x2, y2, step) {
       var d = Math.hypot(x2 - x1, y2 - y1), n = Math.max(1, Math.round(d / step));
