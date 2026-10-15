@@ -230,13 +230,33 @@
 <!-- LIMITATIONS -->
 <section id="limits" class="sec">
   <div class="wrap">
-    <h2>Limitations and next steps</h2>
+    <h2>Limitations and future work</h2>
+
+    <h3>Limitations</h3>
+    <div class="prose">
+      <p>The current work has four principal limitations that bound the scope of the reported results.</p>
+    </div>
     <ul class="plain">
-      <li><strong>Simulation only.</strong> All results come from Isaac Sim. Wheel slip, backlash and sensor noise on a real floor may affect accuracy.</li>
-      <li><strong>Odometry drift.</strong> Localisation uses wheel odometry alone, so position error grows over long jobs. A fiducial, UWB or lidar-based correction is planned.</li>
-      <li><strong>Hand-tuned gains.</strong> The LQR weights were tuned by hand and may need re-tuning for other robots, floors or speeds.</li>
-      <li><strong>Next.</strong> Hardware tests on a physical Nova Carter, and Davinci-RoboPlot v2 with a three-axis CNC gantry on the mobile base for sub-millimetre precision.</li>
+      <li><strong>Simulation-only validation.</strong> All experiments were conducted in Isaac Sim. Real hardware deployment may introduce additional wheel slip on non-ideal surfaces, which may affect tracking performance relative to the simulation results reported here.</li>
+      <li><strong>Unbounded odometric drift.</strong> The platform relies exclusively on wheel odometry for localisation. Drift accumulates without bound over long pen-up travel segments, limiting absolute positioning accuracy for large-scale jobs regardless of controller quality. This is a known limitation of wheel odometry in low-traction conditions.</li>
+      <li><strong>Manually tuned gain matrix.</strong> The PD-LQR gain matrix was tuned manually by iterating square-closure tests on the Nova Carter platform. The gains may not generalise optimally to different robot platforms without re-tuning.</li>
+      <li><strong>Task execution time.</strong> The platform completes a 10-car parking lot layout in 6 h 32 min at a base speed of V<sub>0</sub> = 0.10 m/s, which is impractical for real-world production deployment. Three factors drive this. First, the fixed base speed is conservatively low, chosen to minimise tracking error, and is slower than commercially deployed marking robots. Second, the heading gate (|e<sub>hdg</sub>| &gt; 30&deg;) forces a full stop and an in-place rotation at every sharp direction change, which adds dead time at each of the hundreds of corner transitions. Third, pen-up repositioning segments between strokes travel at the same slow drawing speed, which adds a substantial amount of non-productive motion. The future work below addresses all three.</li>
     </ul>
+
+    <h3>Future work</h3>
+    <div class="prose">
+      <p>Two main directions are planned.</p>
+      <p><strong>Hardware validation.</strong> The platform will be deployed on a physical robot to validate the simulation results and to quantify the effects of wheel slip, surface irregularities and motor dynamics. An absolute position correction mechanism will also be investigated to address odometric drift over large-scale tasks.</p>
+      <p><strong>Shorter task time.</strong> Execution time will be reduced through three complementary improvements:</p>
+    </div>
+    <ul class="plain">
+      <li>adaptive speed scheduling, which raises V<sub>0</sub> on straight segments and lowers it near corners;</li>
+      <li>replacing the hard heading gate with a smooth velocity function proportional to |e<sub>hdg</sub>|, to eliminate full stops; and</li>
+      <li>running pen-up travel segments at a higher speed, since marking accuracy is not needed while repositioning.</li>
+    </ul>
+    <div class="prose">
+      <p>These improvements are expected to bring the total task time within the 1&ndash;2 hour range achieved by commercial systems, while keeping the generalised DXF rendering capability that distinguishes this platform.</p>
+    </div>
   </div>
 </section>
 
