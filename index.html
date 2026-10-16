@@ -29,7 +29,7 @@
         <span><a href="mailto:deokjlee@jbnu.ac.kr">Deok Jin Lee</a><sup>2</sup></span>
       </p>
       <!-- To link the lab name, wrap it like this: <a href="https://YOUR-LAB-URL" target="_blank" rel="noopener">Center for Autonomous Intelligent Mobility (CAIM)</a> -->
-      <p class="affil"><sup>1,2</sup>Department of Mechanical Design Engineering, Jeonbuk National University, and <a href="https://caim.jbnu.ac.kr/caim/index.do" target="_blank" rel="noopener">Center for Autonomous Intelligent Mobility (CAIM)</a></p>
+      <p class="affil"><sup>1,2</sup>Department of Mechanical Design Engineering, Jeonbuk National University, and <a href="https://www.jbnu-caim.kr/main/" target="_blank" rel="noopener">Center for Autonomous Intelligent Mobility (CAIM)</a></p>
       <a class="btn" href="#experiments">Watch the experiments</a>
     </div>
   </div>
@@ -237,10 +237,9 @@
       <p>The current work has four principal limitations that bound the scope of the reported results.</p>
     </div>
     <ul class="plain">
-      <li><strong>Simulation-only validation.</strong> All experiments were conducted in Isaac Sim. Real hardware deployment may introduce additional wheel slip on non-ideal surfaces, which may affect tracking performance relative to the simulation results reported here.</li>
-      <li><strong>Unbounded odometric drift.</strong> The platform relies exclusively on wheel odometry for localisation. Drift accumulates without bound over long pen-up travel segments, limiting absolute positioning accuracy for large-scale jobs regardless of controller quality. This is a known limitation of wheel odometry in low-traction conditions.</li>
-      <li><strong>Manually tuned gain matrix.</strong> The PD-LQR gain matrix was tuned manually by iterating square-closure tests on the Nova Carter platform. The gains may not generalise optimally to different robot platforms without re-tuning.</li>
-      <li><strong>Task execution time.</strong> The platform completes a 10-car parking lot layout in 6 h 32 min at a base speed of V<sub>0</sub> = 0.10 m/s, which is impractical for real-world production deployment. Three factors drive this. First, the fixed base speed is conservatively low, chosen to minimise tracking error, and is slower than commercially deployed marking robots. Second, the heading gate (|e<sub>hdg</sub>| &gt; 30&deg;) forces a full stop and an in-place rotation at every sharp direction change, which adds dead time at each of the hundreds of corner transitions. Third, pen-up repositioning segments between strokes travel at the same slow drawing speed, which adds a substantial amount of non-productive motion. The future work below addresses all three.</li>
+      <li><strong>Simulation-only validation.</strong> All experiments were conducted in Isaac~Sim.Real hardware deployment may introduce additional wheel slip on non-ideal surfaces, affects tracking performance relative to the simulation results reported.</li>
+      <li><strong>Odometric drift.</strong> The platform relies exclusively on wheel odometry for localisation. Drift accumulates without bound over long pen-up travel segments, limiting absolute positioning accuracy for large-scale jobs regardless of controller quality. This is a known limitation of wheel odometry in low-traction conditions.</li>
+      <li><strong>Task execution time.</strong> The platform completes a 10-car parking lot layout in 6 h 32 min at a base speed of V<sub>0</sub> = 0.15 m/s, which is impractical for real-world production deployment. Three factors drive this. First, the fixed base speed is conservatively low, chosen to minimise tracking error. Second, the heading gate (|e<sub>hdg</sub>| &gt; 30&deg;) forces a full stop and an in-place rotation at every sharp direction change, which adds dead time at each of the hundreds of corner transitions. Third, pen-up repositioning segments between strokes travel at the same slow drawing speed, which adds a substantial amount of non-productive motion. The future work below addresses all three imitations .</li>
     </ul>
 
     <h3>Future work</h3>
