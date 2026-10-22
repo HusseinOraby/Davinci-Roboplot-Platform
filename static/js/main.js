@@ -88,13 +88,14 @@
       }
 
       if (robotImg.complete && robotImg.naturalWidth) {
-        var k = (WHEELBASE_M / WHEEL_PX) * scale * 1000 * ROBOT_SCALE;
+        var iw = robotImg.naturalWidth, ih = robotImg.naturalHeight;
+        var k = (WHEELBASE_M / (WHEEL_FRAC * iw)) * scale * 1000 * ROBOT_SCALE;
         ctx.save();
         ctx.translate(c[0], c[1]);
         ctx.rotate(heading + FRONT_ANGLE);
         ctx.shadowColor = "rgba(0,0,0,0.55)";
         ctx.shadowBlur = 14;
-        ctx.drawImage(robotImg, -AXLE_X * k, -AXLE_Y * k, robotImg.naturalWidth * k, robotImg.naturalHeight * k);
+        ctx.drawImage(robotImg, -AXLE_FX * iw * k, -AXLE_FY * ih * k, iw * k, ih * k);
         ctx.restore();
       }
       ctx.fillStyle = cur.pen ? "#ff4d6d" : "#8eabdd";
