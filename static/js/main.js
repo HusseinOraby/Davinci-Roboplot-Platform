@@ -11,9 +11,9 @@
     var W = 0, H = 0, scale = 1, ox = 0, oy = 0;
     var drawn = 0, pause = 30, speed = 10;
     var robotImg = new Image();
-    robotImg.src = "static/images/nova-carter-top.png";
+    robotImg.src = "static/images/nova-carter-top-40-percent.png";
     var heading = 45;
-    var ROBOT_SCALE = 1.4;          // 1 = true size, lower it (for example 0.8) to make the robot smaller
+    var ROBOT_SCALE = 1;          // 1 = true size, lower it (for example 0.8) to make the robot smaller
     var FRONT_ANGLE = Math.PI;    // Math.PI = wheels at the rear; change to 0 if it looks like it drives backwards
     var WHEELBASE_M = 0.413;      // from the paper
     var WHEEL_PX = 196.9;         // distance between the wheel centres in the image
