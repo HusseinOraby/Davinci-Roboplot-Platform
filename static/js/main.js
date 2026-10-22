@@ -10,6 +10,14 @@
     var path = [];
     var W = 0, H = 0, scale = 1, ox = 0, oy = 0;
     var drawn = 0, pause = 30, speed = 10;
+    var robotImg = new Image();
+    robotImg.src = "static/images/nova-carter-top.png";
+    var heading = 0;
+    var ROBOT_SCALE = 1;          // 1 = true size, lower it (for example 0.8) to make the robot smaller
+    var FRONT_ANGLE = Math.PI;    // Math.PI = wheels at the rear; change to 0 if it looks like it drives backwards
+    var WHEELBASE_M = 0.413;      // from the paper
+    var WHEEL_PX = 196.9;         // distance between the wheel centres in the image
+    var AXLE_X = 119.6, AXLE_Y = 63;  // point between the wheels, where the pen is
 
     function line(x1, y1, x2, y2, step) {
       var d = Math.hypot(x2 - x1, y2 - y1), n = Math.max(1, Math.round(d / step));
@@ -66,11 +74,34 @@
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      var cur = path[Math.min(drawn, path.length) - 1] || path[0];
-      var c = P(cur), rs = Math.max(7, scale * 190);
-      ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(c[0], c[1], rs * 0.55, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = "#524493"; ctx.lineWidth = 3; ctx.stroke();
-      ctx.fillStyle = cur.pen ? "#ff4d6d" : "#8eabdd"; ctx.beginPath(); ctx.arc(c[0], c[1], rs * 0.2, 0, Math.PI * 2); ctx.fill();
+      
+      var j = Math.min(drawn, path.length) - 1;
+      var cur = path[j] || path[0];
+      var c = P(cur);
+
+      var back = path[Math.max(0, j - 6)];
+      var dx = cur.x - back.x, dy = cur.y - back.y;
+      if (Math.hypot(dx, dy) > 20) {
+        var want = Math.atan2(dx, dy);
+        var diff = Math.atan2(Math.sin(want - heading), Math.cos(want - heading));
+        heading += diff * 0.15;
+      }
+
+      if (robotImg.complete && robotImg.naturalWidth) {
+        var k = (WHEELBASE_M / WHEEL_PX) * scale * 1000 * ROBOT_SCALE;
+        ctx.save();
+        ctx.translate(c[0], c[1]);
+        ctx.rotate(heading + FRONT_ANGLE);
+        ctx.shadowColor = "rgba(0,0,0,0.55)";
+        ctx.shadowBlur = 14;
+        ctx.drawImage(robotImg, -AXLE_X * k, -AXLE_Y * k, robotImg.naturalWidth * k, robotImg.naturalHeight * k);
+        ctx.restore();
+      }
+      ctx.fillStyle = cur.pen ? "#ff4d6d" : "#8eabdd";
+      ctx.beginPath(); ctx.arc(c[0], c[1], 4, 0, Math.PI * 2); ctx.fill();
+      
+    
+    
     }
 
     function tick() {
