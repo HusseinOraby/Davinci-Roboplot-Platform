@@ -15,9 +15,9 @@
     var heading = 45;
     var ROBOT_SCALE = 1;          // 1 = true size, lower it (for example 0.8) to make the robot smaller
     var FRONT_ANGLE = Math.PI;    // Math.PI = wheels at the rear; change to 0 if it looks like it drives backwards
-    var WHEELBASE_M = 0.413;      // from the paper
-    var WHEEL_PX = 196.9;         // distance between the wheel centres in the image
-    var AXLE_X = 119.6, AXLE_Y = 63;  // point between the wheels, where the pen is
+    var WHEELBASE_M = 0.265;      // from the paper
+    var WHEEL_PX = 98.45;         // distance between the wheel centres in the image
+    var AXLE_X = 98.45, AXLE_Y = 31.5;  // point between the wheels, where the pen is
 
     function line(x1, y1, x2, y2, step) {
       var d = Math.hypot(x2 - x1, y2 - y1), n = Math.max(1, Math.round(d / step));
