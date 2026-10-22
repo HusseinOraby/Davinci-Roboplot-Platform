@@ -9,7 +9,7 @@
     var ctx = canvas.getContext("2d");
     var path = [];
     var W = 0, H = 0, scale = 1, ox = 0, oy = 0;
-    var drawn = 0, pause = 30, speed = 10;
+    var drawn = 0, pause = 30, speed = 50;
     var robotImg = new Image();
     robotImg.src = "static/images/nova-carter-top-40-percent.png";
     var heading = 0;
