@@ -14,7 +14,7 @@
     robotImg.src = "static/images/nova-carter-top-40-percent.png";
     var heading = 45;
     var ROBOT_SCALE = 1;          // 1 = true size, lower it (for example 0.8) to make the robot smaller
-    var FRONT_ANGLE = Math.PI;    // Math.PI = wheels at the rear; change to 0 if it looks like it drives backwards
+    var FRONT_ANGLE = 120 * Math.PI / 180;    // Math.PI = wheels at the rear change to 0 if it looks like it drives backwards
     var WHEELBASE_M = 0.265;      // from the paper
     var WHEEL_PX = 98.45;         // distance between the wheel centres in the image
     var AXLE_X = 98.45, AXLE_Y = 31.5;  // point between the wheels, where the pen is
