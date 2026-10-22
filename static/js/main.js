@@ -79,12 +79,10 @@
       var cur = path[j] || path[0];
       var c = P(cur);
 
-      var back = path[Math.max(0, j - 6)];
+      var back = path[Math.max(0, j - 1)];
       var dx = cur.x - back.x, dy = cur.y - back.y;
-      if (Math.hypot(dx, dy) > 20) {
-        var want = Math.atan2(dx, dy);
-        var diff = Math.atan2(Math.sin(want - heading), Math.cos(want - heading));
-        heading += diff * 0.15;
+      if (cur.pen && Math.hypot(dx, dy) > 0.5) {
+        heading = Math.atan2(dx, dy);
       }
 
       if (robotImg.complete && robotImg.naturalWidth) {
