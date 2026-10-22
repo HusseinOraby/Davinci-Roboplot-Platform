@@ -12,12 +12,12 @@
     var drawn = 0, pause = 30, speed = 10;
     var robotImg = new Image();
     robotImg.src = "static/images/nova-carter-top-40-percent.png";
-    var heading = 45;
-    var ROBOT_SCALE = 1;          // 1 = true size, lower it (for example 0.8) to make the robot smaller
-    var FRONT_ANGLE = 120 * Math.PI / 180;    // Math.PI = wheels at the rear change to 0 if it looks like it drives backwards
-    var WHEELBASE_M = 0.265;      // from the paper
-    var WHEEL_PX = 98.45;         // distance between the wheel centres in the image
-    var AXLE_X = 98.45, AXLE_Y = 31.5;  // point between the wheels, where the pen is
+    var heading = 0;
+    var ROBOT_SCALE = 0.64;       // 1 = true size, lower it to make the robot smaller
+    var FRONT_ANGLE = Math.PI;    // Math.PI = wheels at the rear, 0 = wheels at the front
+    var WHEELBASE_M = 0.413;      // from the paper
+    var WHEEL_FRAC = 196.9 / 241; // wheel spacing as a fraction of the image width
+    var AXLE_FX = 119.6 / 241, AXLE_FY = 63 / 360;  // pen point as a fraction of the image size
 
     function line(x1, y1, x2, y2, step) {
       var d = Math.hypot(x2 - x1, y2 - y1), n = Math.max(1, Math.round(d / step));
